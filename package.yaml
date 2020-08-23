@@ -2,9 +2,9 @@ name:                princesa
 version:             0.1.0.0
 github:              "githubuser/princesa"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2020 Author name here"
+author:              "Franco Testagrossa"
+maintainer:          "franco.testagrossa@gmail.com"
+copyright:           "2020 Franco Testagrossa here"
 
 extra-source-files:
 - README.md
@@ -24,6 +24,18 @@ dependencies:
 
 library:
   source-dirs: src
+  exposed-modules:
+    Lib
+    Infrastructure.Candidates
+    Infrastructure.Jobs
+  other-modules:
+    Modules.Candidates.Domain
+    Modules.Candidates.Infrastructure
+    Modules.Candidates.Service
+    Modules.Jobs.Domain
+    Modules.Jobs.Infrastructure
+    Modules.Jobs.Service
+
 
 executables:
   princesa-exe:

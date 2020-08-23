@@ -4,16 +4,16 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a241edf4bd7514eb2ef6d2617bea6b5f8ded96f091b217518599b22e92f43da9
+-- hash: 47a909ec1945ee580a90a12062a3a7bf4ebe2bd1119ac8ae13a5adb49c09c9e6
 
 name:           princesa
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/princesa#readme>
 homepage:       https://github.com/githubuser/princesa#readme
 bug-reports:    https://github.com/githubuser/princesa/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2020 Author name here
+author:         Franco Testagrossa
+maintainer:     franco.testagrossa@gmail.com
+copyright:      2020 Franco Testagrossa here
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -27,9 +27,9 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Lib Infrastructure.Candidates Infrastructure.Jobs
   other-modules:
-      Paths_princesa
+      Modules.Candidates.Domain Modules.Candidates.Infrastructure Modules.Candidates.Service Modules.Jobs.Domain Modules.Jobs.Infrastructure Modules.Jobs.Service
   hs-source-dirs:
       src
   build-depends:
