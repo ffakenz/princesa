@@ -3,11 +3,16 @@ module Modules.Candidates.Service where
 import Modules.Candidates.Domain
 import Modules.Candidates.Infrastructure
 
-getCandidate ::
+searchAllCandidates ::
+  (CandidateRepository e) =>
+  e (CandidateResponse [Candidate])
+searchAllCandidates = Right <$> searchAll
+
+findCandidate ::
   (CandidateRepository e) =>
   CandidateId ->
   e (CandidateResponse (Maybe Candidate))
-getCandidate candidateId = Right <$> find candidateId
+findCandidate candidateId = Right <$> find candidateId
 
 createCandidate ::
   (CandidateRepository e) =>
@@ -15,7 +20,7 @@ createCandidate ::
   e (CandidateResponse ())
 createCandidate candidate@(Candidate candidateId _) =
   do
-    candidateR <- getCandidate candidateId
+    candidateR <- findCandidate candidateId
     case candidateR of
       (Right (Just candidate)) ->
         Right <$> create candidate

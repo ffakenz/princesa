@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 47a909ec1945ee580a90a12062a3a7bf4ebe2bd1119ac8ae13a5adb49c09c9e6
+-- hash: 10ed53d4e31db12aae56b47bc229ecbc2e5feb96ae834c966911fbdeec811f8e
 
 name:           princesa
 version:        0.1.0.0
@@ -27,13 +27,17 @@ source-repository head
 
 library
   exposed-modules:
-      Lib Infrastructure.Candidates Infrastructure.Jobs
+      Lib Infrastructure.Candidates Infrastructure.Jobs Infrastructure.HttpServer
   other-modules:
       Modules.Candidates.Domain Modules.Candidates.Infrastructure Modules.Candidates.Service Modules.Jobs.Domain Modules.Jobs.Infrastructure Modules.Jobs.Service
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , servant-server
+    , wai
+    , warp
   default-language: Haskell2010
 
 executable princesa-exe
@@ -44,8 +48,12 @@ executable princesa-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base
     , princesa
+    , servant-server
+    , wai
+    , warp
   default-language: Haskell2010
 
 test-suite princesa-test
@@ -57,6 +65,13 @@ test-suite princesa-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base
+    , hspec
+    , hspec-wai
+    , hspec-wai-json
     , princesa
+    , servant-server
+    , wai
+    , warp
   default-language: Haskell2010

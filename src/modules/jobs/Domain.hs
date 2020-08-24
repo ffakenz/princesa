@@ -1,15 +1,20 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module Modules.Jobs.Domain where
+
+import GHC.Generics
 
 newtype JobId = JobId
   { getJobId :: Int
   }
-  deriving (Show)
+  deriving (Show, Enum, Num, Generic)
 
 data Job = Job
   { jobId :: JobId,
     jobDescription :: String
   }
-  deriving (Show)
+  deriving (Show, Generic)
 
 newtype JobError = JobError
   { errorMessage :: String

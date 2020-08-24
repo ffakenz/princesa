@@ -21,6 +21,10 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- aeson
+- servant-server
+- wai
+- warp
 
 library:
   source-dirs: src
@@ -28,6 +32,7 @@ library:
     Lib
     Infrastructure.Candidates
     Infrastructure.Jobs
+    Infrastructure.HttpServer
   other-modules:
     Modules.Candidates.Domain
     Modules.Candidates.Infrastructure
@@ -46,6 +51,7 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - base
     - princesa
 
 tests:
@@ -57,4 +63,9 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - base
     - princesa
+    - hspec
+    - hspec-wai
+    - hspec-wai-json
+    - aeson
