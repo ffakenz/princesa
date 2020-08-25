@@ -11,8 +11,9 @@ import Test.Hspec.Wai.JSON
 main :: IO ()
 main = hspec spec
 
+-- @TODO inject config to app
 spec :: Spec
-spec = with (return app) $ do
+spec = with (return (app undefined)) $ do
   describe "GET /jobs" $ do
     it "responds with 200" $ do
       get "/jobs" `shouldRespondWith` 200

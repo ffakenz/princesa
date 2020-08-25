@@ -1,0 +1,12 @@
+# 10 Command-line Utilities in PostgreSQL
+- Enlisting the available databases = `\l`
+- Enlisting the available tables in the current database = `\dt`
+- Switching to another database = `\c <database_name>`
+- Describing a particular table = `\d <table_name>` 
+- Exit the command line = `\q`
+- Knowing the version of PostgreSQL = `SELECT version();`
+- Seeing the previously executed command = `\g`
+- Enlisting all the available commands = `\?`
+- Knowing the syntaxes of PostgreSQL statements = `\h <command>`
+- Knowing the execution times of queries = `\timing`
+- psql + text editor = `e`

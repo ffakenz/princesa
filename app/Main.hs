@@ -1,11 +1,8 @@
 module Main where
 
-import Infrastructure.Candidates ()
-import Infrastructure.HttpServer
-import Infrastructure.Jobs ()
+import Infrastructure.Init (runApp)
 
--- import Lib
--- main = someFunc print
-
+-- | The 'main' function gathers the required environment information and
+-- initializes the application.
 main :: IO ()
-main = startApp
+main = runApp

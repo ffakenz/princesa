@@ -21,18 +21,42 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+# json serializer
 - aeson
+# http server
+- servant
 - servant-server
 - wai
 - warp
+# repository
+- persistent
+- persistent-postgresql
+- persistent-template
+# logger
+- monad-logger
+- fast-logger
+- katip
+- wai-extra
+# reader-t
+- mtl
+# bytestring
+- bytestring
+# safe
+- safe
 
 library:
   source-dirs: src
   exposed-modules:
     Lib
-    Infrastructure.Candidates
-    Infrastructure.Jobs
+    Infrastructure.Persistence.RepositoryCandidates
+    Infrastructure.Persistence.RepositoryJobs
+    Infrastructure.Persistence.DBHelper
+    Infrastructure.Persistence.Models
     Infrastructure.HttpServer
+    Infrastructure.Init
+    Infrastructure.Config
+    Infrastructure.Logger
+    Infrastructure.Types
   other-modules:
     Modules.Candidates.Domain
     Modules.Candidates.Infrastructure

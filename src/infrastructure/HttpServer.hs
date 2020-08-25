@@ -4,7 +4,8 @@
 module Infrastructure.HttpServer where
 
 import Control.Monad.IO.Class (liftIO)
-import Infrastructure.Jobs ()
+import Infrastructure.Config (Config)
+import Infrastructure.Persistence.RepositoryJobs ()
 import Modules.Jobs.Domain
 import Modules.Jobs.Service
 import Network.Wai
@@ -14,10 +15,10 @@ import Servant
 type API = "jobs" :> Get '[JSON] [Job]
 
 startApp :: IO ()
-startApp = run 8080 app
+startApp = run 8080 (app undefined) -- @TODO
 
-app :: Application
-app = serve api server
+app :: Config -> Application
+app _ = serve api server
 
 api :: Proxy API
 api = Proxy

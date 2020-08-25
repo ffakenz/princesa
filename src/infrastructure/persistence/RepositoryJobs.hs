@@ -1,4 +1,4 @@
-module Infrastructure.Jobs where
+module Infrastructure.Persistence.RepositoryJobs where
 
 import Data.Aeson
 import Modules.Jobs.Domain

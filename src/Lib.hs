@@ -3,8 +3,8 @@ module Lib
   )
 where
 
-import Infrastructure.Candidates ()
-import Infrastructure.Jobs ()
+import Infrastructure.Persistence.RepositoryCandidates ()
+import Infrastructure.Persistence.RepositoryJobs ()
 import Modules.Candidates.Domain
 import Modules.Candidates.Infrastructure
 import Modules.Candidates.Service

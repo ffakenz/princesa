@@ -1,4 +1,4 @@
-module Infrastructure.Candidates where
+module Infrastructure.Persistence.RepositoryCandidates where
 
 import Data.Aeson
 import Modules.Candidates.Domain

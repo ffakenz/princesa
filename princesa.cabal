@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 10ed53d4e31db12aae56b47bc229ecbc2e5feb96ae834c966911fbdeec811f8e
+-- hash: 230f1204347f462561168caa6677cb51534cc990adb74c1fe5f6e0b41647d679
 
 name:           princesa
 version:        0.1.0.0
@@ -27,7 +27,7 @@ source-repository head
 
 library
   exposed-modules:
-      Lib Infrastructure.Candidates Infrastructure.Jobs Infrastructure.HttpServer
+      Lib Infrastructure.Persistence.RepositoryCandidates Infrastructure.Persistence.RepositoryJobs Infrastructure.Persistence.DBHelper Infrastructure.Persistence.Models Infrastructure.HttpServer Infrastructure.Init Infrastructure.Config Infrastructure.Logger Infrastructure.Types
   other-modules:
       Modules.Candidates.Domain Modules.Candidates.Infrastructure Modules.Candidates.Service Modules.Jobs.Domain Modules.Jobs.Infrastructure Modules.Jobs.Service
   hs-source-dirs:
@@ -35,8 +35,19 @@ library
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , fast-logger
+    , katip
+    , monad-logger
+    , mtl
+    , persistent
+    , persistent-postgresql
+    , persistent-template
+    , safe
+    , servant
     , servant-server
     , wai
+    , wai-extra
     , warp
   default-language: Haskell2010
 
@@ -50,9 +61,20 @@ executable princesa-exe
   build-depends:
       aeson
     , base
+    , bytestring
+    , fast-logger
+    , katip
+    , monad-logger
+    , mtl
+    , persistent
+    , persistent-postgresql
+    , persistent-template
     , princesa
+    , safe
+    , servant
     , servant-server
     , wai
+    , wai-extra
     , warp
   default-language: Haskell2010
 
@@ -67,11 +89,22 @@ test-suite princesa-test
   build-depends:
       aeson
     , base
+    , bytestring
+    , fast-logger
     , hspec
     , hspec-wai
     , hspec-wai-json
+    , katip
+    , monad-logger
+    , mtl
+    , persistent
+    , persistent-postgresql
+    , persistent-template
     , princesa
+    , safe
+    , servant
     , servant-server
     , wai
+    , wai-extra
     , warp
   default-language: Haskell2010
