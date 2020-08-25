@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 230f1204347f462561168caa6677cb51534cc990adb74c1fe5f6e0b41647d679
+-- hash: 8835b56de5ee4a8197ea610b5559904c1adaab3e948c02d988d0467b05f4ab06
 
 name:           princesa
 version:        0.1.0.0
@@ -27,9 +27,9 @@ source-repository head
 
 library
   exposed-modules:
-      Lib Infrastructure.Persistence.RepositoryCandidates Infrastructure.Persistence.RepositoryJobs Infrastructure.Persistence.DBHelper Infrastructure.Persistence.Models Infrastructure.HttpServer Infrastructure.Init Infrastructure.Config Infrastructure.Logger Infrastructure.Types
+      Lib Infrastructure.Init Infrastructure.Http.Api Infrastructure.Config Infrastructure.Logger Infrastructure.Types Infrastructure.Persistence.DBHelper
   other-modules:
-      Modules.Candidates.Domain Modules.Candidates.Infrastructure Modules.Candidates.Service Modules.Jobs.Domain Modules.Jobs.Infrastructure Modules.Jobs.Service
+      Modules.Candidates.Domain.Entity Modules.Candidates.Domain.Service Modules.Candidates.Domain.Repository Modules.Candidates.Infrastructure.Http.Api Modules.Candidates.Infrastructure.Persistence.Db Modules.Candidates.Infrastructure.Persistence.Models Modules.Jobs.Domain.Entity Modules.Jobs.Domain.Service Modules.Jobs.Domain.Repository Modules.Jobs.Infrastructure.Http.Api Modules.Jobs.Infrastructure.Persistence.Db Modules.Jobs.Infrastructure.Persistence.Models
   hs-source-dirs:
       src
   build-depends:
@@ -82,6 +82,7 @@ test-suite princesa-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      ApiSpec
       Paths_princesa
   hs-source-dirs:
       test

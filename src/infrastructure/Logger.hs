@@ -12,8 +12,12 @@ module Infrastructure.Logger
   )
 where
 
+import Control.Monad.IO.Class
 import Control.Monad.Logger
 import qualified Control.Monad.Logger as Logger
+import Control.Monad.Reader (asks)
+import Infrastructure.Config
+import Infrastructure.Types
 import Katip
 import qualified System.IO as IO
 import qualified System.Log.FastLogger as FastLogger
@@ -47,3 +51,16 @@ adapt f _ src lvl msg =
     ns = Namespace [src]
     -- not sure how fast this is going to be
     logStr' = Katip.logStr . FastLogger.fromLogStr . Logger.toLogStr
+
+-- | Katip instance for @AppT m@
+instance MonadIO m => Katip (AppT m) where
+  getLogEnv = asks configLogEnv
+  localLogEnv = error "not implemented"
+
+-- | MonadLogger instance to use within @AppT m@
+instance MonadIO m => MonadLogger (AppT m) where
+  monadLoggerLog = adapt logMsg
+
+-- | MonadLogger instance to use in @makePool@
+instance MonadIO m => MonadLogger (KatipT m) where
+  monadLoggerLog = adapt logMsg

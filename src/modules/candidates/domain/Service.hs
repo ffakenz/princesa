@@ -1,7 +1,7 @@
-module Modules.Candidates.Service where
+module Modules.Candidates.Domain.Service where
 
-import Modules.Candidates.Domain
-import Modules.Candidates.Infrastructure
+import Modules.Candidates.Domain.Entity
+import Modules.Candidates.Domain.Repository
 
 searchAllCandidates ::
   (CandidateRepository e) =>

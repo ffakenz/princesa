@@ -1,8 +1,8 @@
-module Infrastructure.Persistence.RepositoryCandidates where
+module Modules.Candidates.Infrastructure.Persistence.Db where
 
 import Data.Aeson
-import Modules.Candidates.Domain
-import Modules.Candidates.Infrastructure
+import Modules.Candidates.Domain.Entity
+import Modules.Candidates.Domain.Repository
 
 -- Json Marshaller
 instance ToJSON Candidate

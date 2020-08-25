@@ -3,14 +3,12 @@ module Lib
   )
 where
 
-import Infrastructure.Persistence.RepositoryCandidates ()
-import Infrastructure.Persistence.RepositoryJobs ()
-import Modules.Candidates.Domain
-import Modules.Candidates.Infrastructure
-import Modules.Candidates.Service
-import Modules.Jobs.Domain
-import Modules.Jobs.Infrastructure
-import Modules.Jobs.Service
+import Modules.Candidates.Domain.Entity
+import Modules.Candidates.Domain.Repository
+import Modules.Candidates.Domain.Service
+import Modules.Jobs.Domain.Entity
+import Modules.Jobs.Domain.Repository
+import Modules.Jobs.Domain.Service
 
 someFunc :: (CandidateRepository e, JobRepository e) => (String -> e ()) -> e ()
 someFunc print = do

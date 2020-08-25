@@ -9,7 +9,7 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module Infrastructure.Persistence.Models where
+module Modules.Candidates.Infrastructure.Persistence.Models where
 
 import Database.Persist.Sql (SqlPersistT, runMigration)
 import Database.Persist.TH
@@ -19,24 +19,26 @@ import Database.Persist.TH
     share,
     sqlSettings,
   )
-import Modules.Jobs.Domain
+import Modules.Candidates.Domain.Entity
 
 -- @TODO revisit Tjob Primary key Int (jobId)
 share
   [mkPersist sqlSettings, mkMigrate "migrateAll"]
   [persistLowerCase|
-JobT sql=jobs
+
+CandidateT sql=candidates
     key Int
     description String
     deriving Show
+
 |]
 
 doMigrations :: SqlPersistT IO ()
 doMigrations = runMigration migrateAll
 
-jobtToJob :: JobT -> Job
-jobtToJob JobT {..} =
-  Job
-    { jobId = JobId $ jobTKey,
-      jobDescription = jobTDescription
+candidatetToCandidate :: CandidateT -> Candidate
+candidatetToCandidate CandidateT {..} =
+  Candidate
+    { candidateId = CandidateId $ candidateTKey,
+      candidateDescription = candidateTDescription
     }

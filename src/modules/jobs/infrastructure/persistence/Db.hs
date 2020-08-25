@@ -1,8 +1,8 @@
-module Infrastructure.Persistence.RepositoryJobs where
+module Modules.Jobs.Infrastructure.Persistence.Db where
 
 import Data.Aeson
-import Modules.Jobs.Domain
-import Modules.Jobs.Infrastructure
+import Modules.Jobs.Domain.Entity
+import Modules.Jobs.Domain.Repository
 
 -- Json Marshaller
 instance ToJSON JobId

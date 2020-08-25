@@ -4,17 +4,18 @@ module Infrastructure.Init where
 
 import Control.Concurrent (killThread)
 import Control.Exception (bracket)
-import Database.Persist.Postgresql (runSqlPool)
+import Database.Persist.Postgresql (ConnectionPool, runSqlPool)
 import Infrastructure.Config
   ( Config (..),
     Environment (..),
     makePool,
     setLogger,
   )
-import Infrastructure.HttpServer (app)
+import Infrastructure.Http.Api (app)
 import Infrastructure.Logger (defaultLogEnv)
-import Infrastructure.Persistence.Models (doMigrations)
 import qualified Katip
+import qualified Modules.Candidates.Infrastructure.Persistence.Models as CandidatesMigration
+import qualified Modules.Jobs.Infrastructure.Persistence.Models as JobsMigration
 import Network.Wai (Application)
 import Network.Wai.Handler.Warp (run)
 import Safe (readMay)
@@ -32,8 +33,13 @@ runApp = bracket acquireConfig shutdownApp runApp
 initialize :: Config -> IO Application
 initialize cfg = do
   let logger = setLogger (configEnv cfg)
-  runSqlPool doMigrations (configPool cfg)
+  executeMigration (configPool cfg)
   pure . logger . app $ cfg
+
+executeMigration :: ConnectionPool -> IO ()
+executeMigration pool = do
+  runSqlPool CandidatesMigration.doMigrations pool
+  runSqlPool JobsMigration.doMigrations pool
 
 -- | Allocates resources for 'Config'
 acquireConfig :: IO Config

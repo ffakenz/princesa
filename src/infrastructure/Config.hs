@@ -5,7 +5,7 @@ module Infrastructure.Config where
 import Control.Monad.Logger (runNoLoggingT, runStdoutLoggingT)
 import qualified Data.ByteString.Char8 as BS
 import Database.Persist.Postgresql (ConnectionPool, ConnectionString, createPostgresqlPool)
-import Katip (LogEnv)
+import Katip (LogEnv, defaultScribeSettings, initLogEnv, registerScribe)
 import Network.Wai (Middleware)
 import Network.Wai.Handler.Warp (Port)
 import Network.Wai.Middleware.RequestLogger (logStdout, logStdoutDev)
@@ -27,13 +27,13 @@ data Environment
   | Production
   deriving (Eq, Show, Read)
 
-defaultConfig :: Config
-defaultConfig =
+defaultConfig :: LogEnv -> ConnectionPool -> Config
+defaultConfig logEnv pool =
   Config
-    { configPool = undefined,
+    { configPool = pool,
       configEnv = Development,
       configPort = 8081,
-      configLogEnv = undefined
+      configLogEnv = logEnv
     }
 
 -- | This returns a 'Middleware' based on the environment that we're in.
@@ -44,7 +44,7 @@ setLogger Production = logStdout
 
 makePool :: Environment -> LogEnv -> IO ConnectionPool
 makePool Test _ =
-  runNoLoggingT $ createPostgresqlPool (connStr "-test") (envPool Test)
+  runNoLoggingT $ createPostgresqlPool (connStr "") (envPool Test)
 makePool Development _ =
   runStdoutLoggingT $ createPostgresqlPool (connStr "") (envPool Development)
 makePool e _ =
@@ -60,6 +60,6 @@ envPool Production = 8
 -- @""@ for 'Development' or @"test"@ for 'Test'.
 connStr :: BS.ByteString -> ConnectionString
 connStr sfx =
-  "host=localhost dbname=perservant"
+  "host=localhost dbname=princesa"
     <> sfx
     <> " user=princesa password=princesa port=5432"

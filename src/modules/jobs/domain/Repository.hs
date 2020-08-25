@@ -1,6 +1,6 @@
-module Modules.Jobs.Infrastructure where
+module Modules.Jobs.Domain.Repository where
 
-import Modules.Jobs.Domain
+import Modules.Jobs.Domain.Entity
 
 class Monad e => JobRepository e where
   find :: JobId -> e (Maybe Job)

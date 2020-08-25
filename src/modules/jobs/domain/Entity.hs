@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module Modules.Jobs.Domain where
+module Modules.Jobs.Domain.Entity where
 
 import GHC.Generics
 

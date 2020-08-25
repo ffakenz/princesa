@@ -1,7 +1,7 @@
-module Modules.Jobs.Service where
+module Modules.Jobs.Domain.Service where
 
-import Modules.Jobs.Domain
-import Modules.Jobs.Infrastructure
+import Modules.Jobs.Domain.Entity
+import Modules.Jobs.Domain.Repository
 
 searchAllJobs :: (JobRepository e) => e (JobResponse [Job])
 searchAllJobs = Right <$> searchAll
