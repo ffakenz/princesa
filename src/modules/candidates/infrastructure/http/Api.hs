@@ -4,8 +4,8 @@
 
 module Modules.Candidates.Infrastructure.Http.Api where
 
-import Control.Monad.Except (MonadIO, liftIO)
 import Control.Monad.Logger (logDebugNS)
+import Control.Monad.Reader (MonadIO)
 import Database.Persist.Postgresql (Entity (..), selectList)
 import Infrastructure.Logger
 import Infrastructure.Persistence.DBHelper (runDb)

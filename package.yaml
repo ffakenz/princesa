@@ -43,6 +43,8 @@ dependencies:
 - bytestring
 # safe
 - safe
+# text
+- text
 
 library:
   source-dirs: src
@@ -67,6 +69,7 @@ library:
     Modules.Jobs.Infrastructure.Http.Api
     Modules.Jobs.Infrastructure.Persistence.Db
     Modules.Jobs.Infrastructure.Persistence.Models
+    Modules.Jobs.Infrastructure.Json.Marshaller
     
 executables:
   princesa-exe:

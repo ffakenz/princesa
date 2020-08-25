@@ -21,8 +21,8 @@ createJob job@(Job jobId _) =
     jobR <- findJob jobId
     case jobR of
       (Right (Just job)) ->
-        Right <$> create job
-      (Right Nothing) ->
         pure . Left . JobError $ "job already exists"
+      (Right Nothing) ->
+        Right <$> create job
       (Left jobError) ->
         pure . Left $ jobError

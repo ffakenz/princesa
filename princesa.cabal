@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8835b56de5ee4a8197ea610b5559904c1adaab3e948c02d988d0467b05f4ab06
+-- hash: f8adc0a52804b0f82e52d0ecbea0b38460cfa721eb67971710f5846282b5bf59
 
 name:           princesa
 version:        0.1.0.0
@@ -29,7 +29,7 @@ library
   exposed-modules:
       Lib Infrastructure.Init Infrastructure.Http.Api Infrastructure.Config Infrastructure.Logger Infrastructure.Types Infrastructure.Persistence.DBHelper
   other-modules:
-      Modules.Candidates.Domain.Entity Modules.Candidates.Domain.Service Modules.Candidates.Domain.Repository Modules.Candidates.Infrastructure.Http.Api Modules.Candidates.Infrastructure.Persistence.Db Modules.Candidates.Infrastructure.Persistence.Models Modules.Jobs.Domain.Entity Modules.Jobs.Domain.Service Modules.Jobs.Domain.Repository Modules.Jobs.Infrastructure.Http.Api Modules.Jobs.Infrastructure.Persistence.Db Modules.Jobs.Infrastructure.Persistence.Models
+      Modules.Candidates.Domain.Entity Modules.Candidates.Domain.Service Modules.Candidates.Domain.Repository Modules.Candidates.Infrastructure.Http.Api Modules.Candidates.Infrastructure.Persistence.Db Modules.Candidates.Infrastructure.Persistence.Models Modules.Jobs.Domain.Entity Modules.Jobs.Domain.Service Modules.Jobs.Domain.Repository Modules.Jobs.Infrastructure.Http.Api Modules.Jobs.Infrastructure.Persistence.Db Modules.Jobs.Infrastructure.Persistence.Models Modules.Jobs.Infrastructure.Json.Marshaller
   hs-source-dirs:
       src
   build-depends:
@@ -46,6 +46,7 @@ library
     , safe
     , servant
     , servant-server
+    , text
     , wai
     , wai-extra
     , warp
@@ -73,6 +74,7 @@ executable princesa-exe
     , safe
     , servant
     , servant-server
+    , text
     , wai
     , wai-extra
     , warp
@@ -105,6 +107,7 @@ test-suite princesa-test
     , safe
     , servant
     , servant-server
+    , text
     , wai
     , wai-extra
     , warp

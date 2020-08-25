@@ -41,3 +41,10 @@ jobtToJob JobT {..} =
     { jobId = JobId $ jobTKey,
       jobDescription = jobTDescription
     }
+
+jobToJobT :: Job -> JobT
+jobToJobT Job {..} =
+  JobT
+    { jobTKey = getJobId jobId,
+      jobTDescription = jobDescription
+    }

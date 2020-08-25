@@ -13,7 +13,7 @@ import Modules.Candidates.Infrastructure.Http.Api
   )
 import Modules.Candidates.Infrastructure.Persistence.Db ()
 import Modules.Jobs.Infrastructure.Http.Api (JobAPI, jobApi, jobServer)
-import Modules.Jobs.Infrastructure.Persistence.Db ()
+import Modules.Jobs.Infrastructure.Json.Marshaller
 import Servant
   ( Proxy (Proxy),
     Raw,
