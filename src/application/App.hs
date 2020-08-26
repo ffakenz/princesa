@@ -1,25 +1,27 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Infrastructure.Init where
+module Application.App where
 
 import Control.Concurrent (killThread)
 import Control.Exception (bracket)
-import Database.Persist.Postgresql (ConnectionPool, runSqlPool)
+import Control.Monad.Logger (runNoLoggingT, runStdoutLoggingT)
+import qualified Data.ByteString.Char8 as BS
+import Database.Persist.Postgresql (ConnectionPool, ConnectionString, createPostgresqlPool, runSqlPool)
 import Infrastructure.Config
   ( Config (..),
-    Environment (..),
-    makePool,
-    setLogger,
+    connStr,
   )
+import Infrastructure.Environment
 import Infrastructure.Http.Api (app)
 import Infrastructure.Logger (defaultLogEnv)
+import Infrastructure.System (lookupSetting)
+import Katip (LogEnv, defaultScribeSettings, initLogEnv, registerScribe)
 import qualified Katip
 import qualified Modules.Candidates.Infrastructure.Persistence.Models as CandidatesMigration
 import qualified Modules.Jobs.Infrastructure.Persistence.Models as JobsMigration
 import Network.Wai (Application)
 import Network.Wai.Handler.Warp (run)
-import Safe (readMay)
-import System.Environment (lookupEnv)
+import Network.Wai.Middleware.RequestLogger (logStdout, logStdoutDev)
 
 -- | An action that creates a WAI 'Application' together with its resources,
 --   runs it, and tears it down on exit
@@ -47,7 +49,7 @@ acquireConfig = do
   port <- lookupSetting "PORT" 8081
   env <- lookupSetting "ENV" Development
   logEnv <- defaultLogEnv
-  pool <- makePool env logEnv
+  pool <- makePool env logEnv connStr
   pure
     Config
       { configPool = pool,
@@ -62,22 +64,14 @@ shutdownApp cfg = do
   Katip.closeScribes (configLogEnv cfg)
   pure ()
 
--- | Looks up a setting in the environment, with a provided default, and
--- 'read's that information into the inferred type.
-lookupSetting :: Read a => String -> a -> IO a
-lookupSetting env def = do
-  maybeValue <- lookupEnv env
-  case maybeValue of
-    Nothing ->
-      return def
-    Just str ->
-      maybe (handleFailedRead str) return (readMay str)
-  where
-    handleFailedRead str =
-      error $
-        mconcat
-          [ "Failed to read [[",
-            str,
-            "]] for environment variable ",
-            env
-          ]
+makePool ::
+  Environment ->
+  LogEnv ->
+  (BS.ByteString -> ConnectionString) ->
+  IO ConnectionPool
+makePool Test _ connStr =
+  runNoLoggingT $ createPostgresqlPool (connStr "") (envPool Test)
+makePool Development _ connStr =
+  runStdoutLoggingT $ createPostgresqlPool (connStr "") (envPool Development)
+makePool e _ connStr =
+  runStdoutLoggingT $ createPostgresqlPool (connStr "") (envPool e)

@@ -1,24 +1,44 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Modules.Candidates.Infrastructure.Persistence.Db where
 
-import Data.Aeson
+import Control.Monad.Logger (logDebugNS)
+import Control.Monad.Reader (MonadIO, liftIO)
+import Data.Text (pack)
+import Database.Persist.Postgresql
+  ( Entity (..),
+    fromSqlKey,
+    insert,
+    selectFirst,
+    selectList,
+    (==.),
+  )
+import Infrastructure.Config (Config)
+import Infrastructure.Logger
+import Infrastructure.Persistence.DBRuntime (runDb)
+import Infrastructure.Types (AppT)
 import Modules.Candidates.Domain.Entity
 import Modules.Candidates.Domain.Repository
+import Modules.Candidates.Infrastructure.Persistence.Models
+  ( EntityField (CandidateTKey),
+    candidateToCandidateT,
+    candidatetToCandidate,
+  )
 
--- Json Marshaller
-instance ToJSON Candidate
-
-instance ToJSON CandidateId
-
--- DB Repository
-instance CandidateRepository IO where
-  find candidateId =
-    if (getCandidateId candidateId `mod` 2) == 0
-      then pure Nothing
-      else pure $ Just (Candidate candidateId "a candidate")
-  create candidate = print $ "inside repo: " <> show candidate
-  searchAll =
-    let candidateIds = [CandidateId id | id <- [1 .. 5]]
-     in pure $
-          [ (Candidate candidateId "a candidate")
-            | candidateId <- candidateIds
-          ]
+instance MonadIO m => CandidateRepository (AppT m) where
+  find candidateId = do
+    logDebugNS "web" (pack $ ("finding a candidate " <> show candidateId))
+    candidateResult <- runDb (selectFirst [CandidateTKey ==. (getCandidateId candidateId)] [])
+    let maybeCandidate = (\(Entity _ c) -> candidatetToCandidate c) <$> candidateResult
+    return maybeCandidate
+  create candidate = do
+    logDebugNS "web" (pack $ ("creating a candidate " <> show candidate))
+    newCandidate <- runDb (insert $ candidateToCandidateT $ candidate)
+    let logMsg = pack $ ("candidate created " <> show newCandidate <> " with key " <> (show $ fromSqlKey newCandidate))
+    logDebugNS "web" logMsg
+    return ()
+  searchAll = do
+    logDebugNS "web" "searchAll"
+    candidatesResult <- runDb $(selectList [] [])
+    let candidates = map (\(Entity _ c) -> candidatetToCandidate c) candidatesResult
+    return candidates

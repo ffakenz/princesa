@@ -1,11 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
 
-module ApiSpec (spec) where
+module JobsApiSpec (spec) where
 
 import Infrastructure.Config
 import Infrastructure.Http.Api (app)
-import Infrastructure.Init
+import Application.NormalMode
 import Infrastructure.Logger (defaultLogEnv)
 import Test.Hspec
 import Test.Hspec.Wai

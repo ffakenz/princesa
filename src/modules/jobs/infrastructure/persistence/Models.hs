@@ -21,7 +21,7 @@ import Database.Persist.TH
   )
 import Modules.Jobs.Domain.Entity
 
--- @TODO revisit Tjob Primary key Int (jobId)
+-- @TODO revisit JobT Primary key Int (jobId)
 share
   [mkPersist sqlSettings, mkMigrate "migrateAll"]
   [persistLowerCase|

@@ -21,7 +21,7 @@ import Database.Persist.TH
   )
 import Modules.Candidates.Domain.Entity
 
--- @TODO revisit Tjob Primary key Int (jobId)
+-- @TODO revisit CandidateT Primary key Int (jobId)
 share
   [mkPersist sqlSettings, mkMigrate "migrateAll"]
   [persistLowerCase|
@@ -41,4 +41,11 @@ candidatetToCandidate CandidateT {..} =
   Candidate
     { candidateId = CandidateId $ candidateTKey,
       candidateDescription = candidateTDescription
+    }
+
+candidateToCandidateT :: Candidate -> CandidateT
+candidateToCandidateT Candidate {..} =
+  CandidateT
+    { candidateTKey = getCandidateId candidateId,
+      candidateTDescription = candidateDescription
     }

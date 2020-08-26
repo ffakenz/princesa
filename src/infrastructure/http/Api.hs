@@ -1,4 +1,3 @@
-{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeOperators #-}
 
 module Infrastructure.Http.Api (app) where
@@ -11,7 +10,7 @@ import Modules.Candidates.Infrastructure.Http.Api
     candidateApi,
     candidateServer,
   )
-import Modules.Candidates.Infrastructure.Persistence.Db ()
+import Modules.Candidates.Infrastructure.Json.Marshaller
 import Modules.Jobs.Infrastructure.Http.Api (JobAPI, jobApi, jobServer)
 import Modules.Jobs.Infrastructure.Json.Marshaller
 import Servant

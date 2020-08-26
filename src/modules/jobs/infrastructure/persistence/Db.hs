@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE UndecidableInstances #-}
 
 module Modules.Jobs.Infrastructure.Persistence.Db where
 
@@ -16,11 +15,11 @@ import Database.Persist.Postgresql
   )
 import Infrastructure.Config (Config)
 import Infrastructure.Logger
-import Infrastructure.Persistence.DBHelper (runDb)
+import Infrastructure.Persistence.DBRuntime (runDb)
 import Infrastructure.Types (AppT)
 import Modules.Jobs.Domain.Entity
 import Modules.Jobs.Domain.Repository
-import qualified Modules.Jobs.Infrastructure.Persistence.Models as Md
+import Modules.Jobs.Infrastructure.Persistence.Models
   ( EntityField (JobTKey),
     jobToJobT,
     jobtToJob,
@@ -29,17 +28,17 @@ import qualified Modules.Jobs.Infrastructure.Persistence.Models as Md
 instance MonadIO m => JobRepository (AppT m) where
   find jobId = do
     logDebugNS "web" (pack $ ("finding a job " <> show jobId))
-    jobResult <- runDb (selectFirst [Md.JobTKey ==. (getJobId jobId)] [])
-    let maybeJob = (\(Entity _ c) -> Md.jobtToJob c) <$> jobResult
+    jobResult <- runDb (selectFirst [JobTKey ==. (getJobId jobId)] [])
+    let maybeJob = (\(Entity _ c) -> jobtToJob c) <$> jobResult
     return maybeJob
   create job = do
     logDebugNS "web" (pack $ ("creating a job " <> show job))
-    newJob <- runDb (insert $ Md.jobToJobT $ job)
+    newJob <- runDb (insert $ jobToJobT $ job)
     let logMsg = pack $ ("job created " <> show newJob <> " with key " <> (show $ fromSqlKey newJob))
     logDebugNS "web" logMsg
     return ()
   searchAll = do
     logDebugNS "web" "searchAll"
     jobsResult <- runDb $(selectList [] [])
-    let jobs = map (\(Entity _ c) -> Md.jobtToJob c) jobsResult
+    let jobs = map (\(Entity _ c) -> jobtToJob c) jobsResult
     return jobs

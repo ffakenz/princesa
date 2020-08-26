@@ -23,8 +23,8 @@ createCandidate candidate@(Candidate candidateId _) =
     candidateR <- findCandidate candidateId
     case candidateR of
       (Right (Just candidate)) ->
-        Right <$> create candidate
-      (Right Nothing) ->
         pure . Left . CandidateError $ "candidate already exists"
+      (Right Nothing) ->
+        Right <$> create candidate
       (Left candidateError) ->
         pure . Left $ candidateError
