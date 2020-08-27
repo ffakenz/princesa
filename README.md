@@ -4,6 +4,10 @@
 
 An Application to support TAs on helping people find their ideal job
 
+## overview
+
+`princesa` is a service built on top of Servant and Persistent
+
 ## testing
 To run the test suite, simply execute
 ```
