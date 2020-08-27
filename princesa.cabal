@@ -25,7 +25,7 @@ source-repository head
 
 library
   exposed-modules:
-      Lib Application.Mode Application.Cli Application.App Infrastructure.Http.Api Infrastructure.Persistence.DBRuntime Infrastructure.Environment Infrastructure.Config Infrastructure.Logger Infrastructure.System Infrastructure.Types
+      Lib Application.Mode Application.Cli Application.App Application.Provider Infrastructure.Http.Api Infrastructure.Persistence.DBRuntime Infrastructure.Persistence.PoolProvider Infrastructure.Environment Infrastructure.Config Infrastructure.Logger Infrastructure.System Infrastructure.Types
   other-modules:
       Modules.Candidates.Domain.Entity Modules.Candidates.Domain.Service Modules.Candidates.Domain.Repository Modules.Candidates.Infrastructure.Http.Api Modules.Candidates.Infrastructure.Http.Handler Modules.Candidates.Infrastructure.Persistence.Db Modules.Candidates.Infrastructure.Persistence.Models Modules.Candidates.Infrastructure.Json.Marshaller Modules.Jobs.Domain.Entity Modules.Jobs.Domain.Service Modules.Jobs.Domain.Repository Modules.Jobs.Infrastructure.Http.Api Modules.Jobs.Infrastructure.Http.Handler Modules.Jobs.Infrastructure.Persistence.Db Modules.Jobs.Infrastructure.Persistence.Models Modules.Jobs.Infrastructure.Json.Marshaller
   hs-source-dirs:

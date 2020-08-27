@@ -26,6 +26,17 @@ defaultConfig logEnv pool =
       configLogEnv = logEnv
     }
 
+instance Show Config where
+  show (Config configPool configEnv configPort configLogEnv) =
+    prettyConfig
+      ( prettyValue "configEnv" configEnv
+          <> prettyValue "configPort" configPort
+      )
+    where
+      prettyConfig content = "[Config > " <> content <> "]"
+      prettyValue name value =
+        "[" <> name <> " = " <> show value <> "]"
+
 -- | A basic 'ConnectionString' for local/test development. Pass in either
 -- @""@ for 'Development' or @"test"@ for 'Test'.
 connStr :: BS.ByteString -> ConnectionString

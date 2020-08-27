@@ -55,8 +55,10 @@ library:
     Application.Mode
     Application.Cli
     Application.App
+    Application.Provider
     Infrastructure.Http.Api
     Infrastructure.Persistence.DBRuntime
+    Infrastructure.Persistence.PoolProvider
     Infrastructure.Environment
     Infrastructure.Config
     Infrastructure.Logger

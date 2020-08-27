@@ -11,7 +11,11 @@ import Modules.Candidates.Infrastructure.Http.Api
     candidateServer,
   )
 import Modules.Candidates.Infrastructure.Json.Marshaller
-import Modules.Jobs.Infrastructure.Http.Api (JobAPI, jobApi, jobServer)
+import Modules.Jobs.Infrastructure.Http.Api
+  ( JobAPI,
+    jobApi,
+    jobServer,
+  )
 import Modules.Jobs.Infrastructure.Json.Marshaller
 import Servant
   ( Proxy (Proxy),
