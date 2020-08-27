@@ -62,8 +62,9 @@ ghcid
 ## Playground
 Hurray !! 
 Here comes the fun part !!
-Now you have your application set and running 
-you can play around with it by performing the following http calls
+Now that you have your application up and running 
+you start playing around with it.
+Try the following http calls
 ![princesa title](./assets/docs/images/princess_title.jpeg)
 ## Jobs
 These are the basic endpoints to manage the jobs module
