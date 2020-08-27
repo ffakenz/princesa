@@ -32,20 +32,3 @@ newtype AppT m a = AppT
     )
 
 type App = AppT IO
-
-data CliError = CliError
-  { errorMessage :: String
-  }
-  deriving (Show)
-
-newtype CliT m a = CliT
-  { runCli :: ReaderT Config (ExceptT CliError m) a
-  }
-  deriving
-    ( Functor,
-      Applicative,
-      Monad,
-      MonadReader Config,
-      MonadError CliError,
-      MonadIO
-    )

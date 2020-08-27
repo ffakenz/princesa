@@ -53,7 +53,8 @@ library:
   exposed-modules:
     Lib
     Application.Mode
-    Application.Cli
+    Application.Cli.Cli
+    Application.Cli.CliT 
     Application.App
     Application.Provider
     Infrastructure.Http.Api

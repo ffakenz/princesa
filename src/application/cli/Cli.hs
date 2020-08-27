@@ -1,5 +1,6 @@
-module Application.Cli where
+module Application.Cli.Cli where
 
+import Application.Cli.CliT
 import Application.Provider
 import Control.Exception (bracket)
 import Control.Monad.Except (ExceptT (..), runExceptT)
@@ -10,19 +11,12 @@ import Infrastructure.Environment (Environment (..), setLogger)
 import Infrastructure.Logger (defaultLogEnv)
 import Infrastructure.Persistence.PoolProvider (makePool)
 import Infrastructure.System (lookupSetting)
-import Infrastructure.Types (CliT (..))
 import qualified Modules.Candidates.Infrastructure.Persistence.Models as CandidatesMigration
 import qualified Modules.Jobs.Domain.Service as Jobs
 import qualified Modules.Jobs.Infrastructure.Persistence.Models as JobsMigration
 
 runApp :: IO ()
 runApp = bracket fetchConfig runApp' shutdownApp
-
-runApp' :: Config -> IO ()
-runApp' cnf = do
-  print . show $ cnf
-  initialize $ cnf
-  run cnf cli
 
 fetchConfig :: IO Config
 fetchConfig = do
@@ -37,27 +31,36 @@ fetchConfig = do
         configLogEnv = logEnv
       }
 
+runApp' :: Config -> IO ()
+runApp' cnf = do
+  print . show $ cnf
+  initialize $ cnf
+  run cnf program
+
 -- | The 'initialize' function accepts the required environment information,
--- initializes the WAI 'Application' and returns it
+-- initializes the 'Application' and returns it
 -- initialize :: Config -> CliT IO
 initialize :: Config -> IO ()
 initialize cfg = do
   executeMigration (configPool cfg)
-
-executeMigration :: ConnectionPool -> IO ()
-executeMigration pool = do
-  runSqlPool CandidatesMigration.doMigrations pool
-  runSqlPool JobsMigration.doMigrations pool
+  where
+    executeMigration :: ConnectionPool -> IO ()
+    executeMigration pool = do
+      runSqlPool CandidatesMigration.doMigrations pool
+      runSqlPool JobsMigration.doMigrations pool
 
 run :: Config -> CliT IO () -> IO ()
-run cfg cli = do
-  result <- runExceptT $ (runReaderT (runCli cli) cfg)
+run cfg program = do
+  let programInput = undefined
+  result <- runExceptT $ (runReaderT (runCli program) (cfg, programInput))
   case result of
-    (Right _) -> print "wip" -- get line and loop
+    (Right _) -> print "continue looping" -- run cfg program
     (Left error) -> print error
 
-cli :: CliT IO ()
-cli = CliT {runCli = ReaderT runCli'}
+program :: CliT IO ()
+program = CliT {runCli = ReaderT runCli'}
   where
-    runCli' config = ExceptT $ process'
-    process' = pure (Right ())
+    runCli' :: (Config, ProgramInput) -> (ExceptT CliError IO) ()
+    runCli' (config, programInput) = ExceptT $ process' config programInput
+    process' :: Config -> ProgramInput -> IO (Either CliError ())
+    process' config programInput = sequence $ Right $ print "wip"

@@ -3,7 +3,7 @@
 module Main where
 
 import qualified Application.App as App (runApp)
-import qualified Application.Cli as CliApp (runApp)
+import qualified Application.Cli.Cli as CliApp (runApp)
 import Application.Mode
 import Options.Generic (getRecord)
 
